@@ -1,34 +1,44 @@
-name: Go
+name: Deploy Go artifact to production
 
 on:
   push:
-    branches: [ "development" ]
-  pull_request:
-    branches: [ "development" ]
+    branches:
+      - staging
 
 jobs:
-
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+    - name: Checkout production branch
+      uses: actions/checkout@v2
+      with:
+        ref: production
 
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.19
-      
-      - name: init
-        run: go mod init test3
-        
-      - name: tidy
-        run: go mod tidy
-        
-      - name: get
-        run: go get -u github.com/google/go-github/v29
-        
-      - name: Build
-        run: go build -v .
+    - name: Download artifact from S3
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: Fetch artifact from S3
+      uses: aws-actions/amazon-s3-fetch-object-action@v1
+      with:
+        aws-region: us-east-1
+        bucket-name: my-bucket
+        object-key: my-artifact
+        local-file-path: my-artifact
 
-      - name: Test
-        run: go test -v .
+    - name: Build and deploy Go artifact
+      run: |
+        # Build and deploy using your preferred method
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        git add .
+        git commit -m "Deploy my Go artifact"
+        git push
+      env:
+        CI: true
