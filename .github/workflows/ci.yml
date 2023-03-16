@@ -1,34 +1,20 @@
-name: Go
+name: Add a folder to a bucket, excluding .log files
 
-on:
-  push:
-    branches: [ "development" ]
-  pull_request:
-    branches: [ "development" ]
+on: push
 
 jobs:
-
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.19
-      
-      - name: init
-        run: go mod init test3
-        
-      - name: tidy
-        run: go mod tidy
-        
-      - name: get
-        run: go get -u github.com/google/go-github/v29
-        
-      - name: Build
-        run: go build -v .
-
-      - name: Test
-        run: go test -v .
+    - uses: actions/checkout@master
+    - name: Upload folder to bucket
+      uses: a-sync/s3-uploader@master
+      with:
+        args: --recursive --exclude "*.log"
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'eu-central-1'
+        S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        S3_KEY: ${{ secrets.S3_KEY }}
+        FILE: ./build
