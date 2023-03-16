@@ -1,33 +1,34 @@
-name: deploy go app
+name: Go
+
 on:
   push:
     branches: [ "development" ]
   pull_request:
-    branches: ["development" ]
+    branches: [ "development" ]
+
 jobs:
-  build-app:
+
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-go@v3
-      - run: go version
-      - name: Go build
-        run: go build main.go
-      - name: go test
-        run: go test -v .
-      - name: Upload artifact to S3 bucket
-      - uses: actions/upload-artifact@v2
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
         with:
-          name: go-app
-          path: go-app
-  deploy-to-staging:
-      needs: build-app
-      runs-on: ubuntu-latest
-      if: github.ref == 'refs/heads/staging'
-      steps:
-        - name: Download artifact from development build
-          uses: actions/download-artifact@v2
-          with:
-            name: go-app
-        - name: Deploy to staging environment
-          run: |
+          go-version: 1.19
+      
+      - name: init
+        run: go mod init test3
+        
+      - name: tidy
+        run: go mod tidy
+        
+      - name: get
+        run: go get -u github.com/google/go-github/v29
+        
+      - name: Build
+        run: go build -v 1.19
+
+      - name: Test
+        run: go test -v 1.19
