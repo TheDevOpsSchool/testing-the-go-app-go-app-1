@@ -2,8 +2,7 @@ name: Deploy Go artifact to production
 
 on:
   push:
-    branches:
-      - production
+    branches: [ production ]
 
 jobs:
   deploy:
@@ -34,7 +33,7 @@ jobs:
     - name: Build and Push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v4
       with:
-        image: nanajanashia/demo-app
+        image: dornubari/main.go
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
