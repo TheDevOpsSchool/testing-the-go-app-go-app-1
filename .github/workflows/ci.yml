@@ -14,12 +14,13 @@ jobs:
       with:
         ref: production
 
-    - name: Download artifact from S3
+    - name: aws crendentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  
+        aws-region: <us-east-1>
+
     - name: Download artifact from S3 bucket
       run: |
         aws s3 cp s3://<godeploystaging>/<Amazon S3/Buckets/godeploystaging/staging/> <github.com/TheDevOpsSchool/testing-the-go-app-go-app-1/edit/staging/.github/workflows/ci.yml> --recursive
