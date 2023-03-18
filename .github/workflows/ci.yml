@@ -23,7 +23,7 @@ jobs:
 
     - name: Download artifact from S3 bucket
       run: |
-        aws s3 cp s3://godeploystaging/AmazonS3/Buckets/godeploystaging/staging/main.go/my-go-app
+        aws s3 cp s3://godeploystaging/github.com/TheDevOpsSchool/testing-the-go-app-go-app-1/edit/production/.github/workflows/ci.yml/main.go
 
 
     - name: Commit and push changes
