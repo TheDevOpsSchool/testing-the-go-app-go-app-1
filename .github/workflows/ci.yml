@@ -24,9 +24,8 @@ jobs:
       uses: aws-actions/amazon-s3-fetch-object-action@v1
       with:
         aws-region: us-east-1
-        bucket-name: my-bucket
-        object-key: my-artifact
-        local-file-path: my-artifact
+        bucket-name: godeploystaging
+        object-key: staging
 
     - name: Build and deploy Go artifact
       run: |
