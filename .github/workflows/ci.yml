@@ -20,22 +20,20 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
-    - name: Fetch artifact from S3
-      uses: aws-actions/amazon-s3-fetch-object-action@v2
-      with:
-        aws-region: us-east-1
-        bucket-name: godeploystaging
-        object-key: staging
+   # - name: Fetch artifact from S3
+      #uses: aws-actions/amazon-s3-fetch-object-action@v2
+      #with:
+       ##bucket-name: godeploystaging
+      #  object-key: staging
 
     #- name: Build and deploy Go artifact
      # run: |
-    - name: Build and Push Docker Image
-      uses: mr-smithers-excellent/docker-build-push@v4
-      with:
-        image: dornubari/main.go
-        registry: docker.io
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+    #- name: Build and Push Docker Image
+     # uses: mr-smithers-excellent/docker-build-push@v4
+     # with:
+       ## registry: docker.io
+       # username: ${{ secrets.DOCKER_USERNAME }}
+       # password: ${{ secrets.DOCKER_PASSWORD }}
         
     #- name: Create SSH key
      # run: ssh-keygen -t rsa -b 4096 -f ./deploy_key -N ''
@@ -60,8 +58,8 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        git config --global user.email "you@example.com"
-        git config --global user.name "Your Name"
+        git config --global user.email "dornubari2002@gmail.comcom"
+        git config --global user.name "Dornubari"
         git add .
         git commit -m "Deploy my Go artifact"
         git push
