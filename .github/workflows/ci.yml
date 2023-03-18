@@ -46,7 +46,7 @@ jobs:
         ssh-private-key: ./deploy_key
 
     - name: Deploy Docker container to EC2
-      uses: appleboy/ssh-action@v0.3.0
+      uses: appleboy/ssh-action@v0.1.8
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USER }}
