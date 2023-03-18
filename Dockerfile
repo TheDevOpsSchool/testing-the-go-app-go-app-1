@@ -1,32 +1,18 @@
-# Start with a minimal golang image
-FROM golang:1.17-alpine3.14 AS build
+FROM golang:1.20
 
-# Set the working directory
 WORKDIR /app
 
-# Copy the Go module files
-COPY go.mod go.sum ./
 
-# Download Go module dependencies
-RUN go mod download
+RUN go mod init github.com/TheDevopsSchool/testing-the-go-app-app-1
 
-# Copy the source code
-COPY . .
+RUN go mod tidy
 
-# Build the Go application
-RUN go build -o app
+RUN go mod download && go mod verify
 
-# Create a new image from scratch
-FROM alpine:3.14
+COPY /main.go .
 
-# Set the working directory
-WORKDIR /app
+RUN go build -v .
 
-# Copy the Go application from the build stage
-COPY --from=build /app/app .
-
-# Expose the default HTTP port
 EXPOSE 8080
 
-# Run the Go application
 CMD ["./app"]
