@@ -21,14 +21,14 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
     - name: Fetch artifact from S3
-      uses: aws-actions/amazon-s3-fetch-object-action@v1
+      uses: aws-actions/amazon-s3-fetch-object-action@v2
       with:
         aws-region: us-east-1
         bucket-name: godeploystaging
         object-key: staging
 
-    - name: Build and deploy Go artifact
-      run: |
+    #- name: Build and deploy Go artifact
+     # run: |
     - name: Build and Push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v4
       with:
