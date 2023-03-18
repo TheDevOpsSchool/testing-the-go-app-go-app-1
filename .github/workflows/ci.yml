@@ -39,6 +39,14 @@ jobs:
           name: go-app
           path: go-app
           
+      - name: Build and Push Docker Image
+        uses: mr-smithers-excellent/docker-build-push@v4
+        with:
+          image: dornubari/main.go
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+              
   deploy-to-staging:
     needs: build
     runs-on: ubuntu-latest
